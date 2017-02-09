@@ -29,7 +29,7 @@ var identityProjection = null;
 
 var tooltipTemplate = _.template('\
 <span class="county"><%= county %></span><br />\
-<strong>Wage growth:</strong> <%= change > 0 ? "+" : "" %><%= change.toFixed(0) %> dollars (<%= change > 0 ? "+" : "" %><%= pct_change.toFixed(1) %>%)\
+<strong>Wage growth:</strong> <%= change > 0 ? "+" : "" %><%= change.toFixed(0) %> dollars (<%= change > 0 ? "+" : "" %><%= (pct_change * 100).toFixed(1) %>%)\
 ')
 
 /**
