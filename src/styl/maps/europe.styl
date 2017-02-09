@@ -1,0 +1,64 @@
+// Paths
+.paths
+	.countries path
+		fill $qz-map-land-fill
+		stroke $qz-map-land-stroke
+		stroke-width 1.5px
+
+	.cities path
+		fill $qz-gray-2
+
+// Labels
+.labels
+	text
+		fill $qz-gray-2
+		font-size: 60%
+		text-anchor start
+		alignment-baseline: middle
+		-webkit-font-smoothing antialiased
+
+	.countries text
+		text-anchor middle
+
+		&.scalerank-2,
+		&.scalerank-3,
+		&.scalerank-4,
+		&.albania,
+		&.armenia,
+		&.azerbaijan,
+		&.bosnia-and-herz,
+		&.croatia,
+		&.cyprus,
+		&.iraq,
+		&.israel,
+		&.jordan,
+		&.lebanon,
+		&.liechtenstein,
+		&.luxembourg,
+		&.monaco,
+		&.macedonia,
+		&.montenegro,
+		&.n-cyprus,
+		&.palestine,
+		&.kosovo,
+		&.vatican
+			display none
+
+		&.france,
+		&.germany,
+		&.greece,
+		&.italy,
+		&.russia,
+		&.poland,
+		&.romania,
+		&.spain,
+		&.turkey,
+		&.ukraine,
+		&.united-kingdom
+			display block
+			font-size 80%
+
+@media screen and (max-width 940px)
+	.labels
+		.countries text
+			display none

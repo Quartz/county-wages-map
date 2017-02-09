@@ -1,0 +1,27 @@
+// Paths
+.paths
+	.states path
+		fill $qz-map-land-fill
+		stroke $qz-map-land-stroke
+		stroke-width 0.5px
+
+	.cities path
+		fill $qz-gray-2
+
+// Labels
+.labels
+	text
+		fill $qz-gray-2
+		font-size 80%
+		text-anchor start
+		alignment-baseline: middle
+		-webkit-font-smoothing antialiased
+
+@media screen and (max-width $width-mobile)
+	.paths
+		.cities
+			display none
+
+	.labels
+		.cities
+			display none

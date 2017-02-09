@@ -1,0 +1,115 @@
+@import 'maps/base'
+
+$lower = #a3a3a3
+$lower_middle = #d0d0c1
+$middle = #ffffe0
+$upper_middle = #e9c8cb
+$upper = #d190b6
+
+h5
+	padding 15px 0 0 10px
+	margin 0
+	font-size 16px
+	font $qz-sans-bold
+
+ul#legend
+	padding: 10px 0 0 10px
+	margin: 0
+	list-style-type: none
+
+	li
+		display: inline-block
+		margin: 0 18px 0 0
+		padding: 0
+		line-height: 17px
+
+		b
+			display: inline-block
+			width: 17px
+			height: 17px
+			margin-right: 6px
+			float: left
+			border: 1px solid $qz-map-graticule
+
+		div
+			whitespace: nowrap
+			fill: $qz-gray-2
+			font-size: 14px
+			font-family: 'AdelleSans-Regular', Helvetica, Arial, sans-serif
+			float: left;
+
+		&.lower b
+			 background-color: $lower
+
+		&.lower-middle b
+			 background-color: $lower_middle
+
+		&.middle b
+			 background-color: $middle
+
+		&.upper-middle b
+			 background-color: $upper_middle
+
+		&.upper b
+			 background-color: $upper
+
+// Paths
+.paths
+	.counties path
+		// fill $qz-map-land-fill
+		stroke $qz-map-land-stroke
+		stroke-width 0.5px
+
+		&.lower
+			fill $lower
+
+		&.lower-middle
+			fill $lower_middle
+
+		&.middle
+			fill $middle
+
+		&.upper-middle
+			fill $upper_middle
+
+		&.upper
+			fill $upper
+
+	.states path
+		fill none
+		stroke $qz-gray-3
+		stroke-width 1px
+
+@media screen and (max-width $width-mobile)
+	.item-body h5
+		// font-size 14px
+		font-weight bold
+
+	.paths
+		.states path
+			fill none
+			stroke $qz-gray-3
+			stroke-width 0.75px
+
+	.footer
+		position inherit
+
+@media screen and (max-width 959px)
+	.paths
+		.counties path
+			stroke-width 0.5px
+
+			&.lower
+				stroke $lower
+
+			&.lower-middle
+				stroke $lower_middle
+
+			&.middle
+				stroke $middle
+
+			&.upper-middle
+				stroke $upper_middle
+
+			&.upper
+				stroke $upper

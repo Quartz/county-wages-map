@@ -1,0 +1,18 @@
+# <x_min> <y_min> <x_max> <y_max>
+bbox: '-74.05 40.733 -73.95 40.753'
+layers:
+    roads:
+        type: 'shp'
+        path: 'new-york_new-york.imposm-shapefiles/new-york_new-york_osm_roads.shp'
+        properties:
+            - 'type'
+
+    parks:
+        type: 'shp'
+        path: 'new-york_new-york.imposm-shapefiles/new-york_new-york_osm_landusages.shp'
+        where: type = 'park'
+
+    points:
+        type: 'csv'
+        path: 'points.csv'
+        id-property: 'name'

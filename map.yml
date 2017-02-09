@@ -1,0 +1,15 @@
+# <x_min> <y_min> <x_max> <y_max>
+bbox: '-180 5 -50 90'
+layers:
+    states:
+        type: 'shp'
+        path: 'http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_1_states_provinces_lakes.zip'
+        id-property: 'name'
+        where: sr_adm0_a3 = 'USA'
+
+    counties:
+        type: 'shp'
+        # http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_us_county_20m.zip
+        # Simplified to 0.01 tolerance
+        path: 'data/simple_counties.shp'
+        id-property: 'GEOID'

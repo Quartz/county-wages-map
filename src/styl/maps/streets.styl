@@ -1,0 +1,42 @@
+// Paths
+.paths
+	.roads path
+		fill none
+		stroke none
+		stroke-width 0.5px
+
+		&.type-motorway,
+		&.type-motorway-link
+			stroke $qz-gray-3
+
+		&.type-trunk,
+		&.type-trunk-link,
+		&.type-primary,
+		&.type-primary-link
+		&.type-secondary,
+		&.type-secondary-link,
+		&.type-tertiary,
+		&.type-tertiary-link
+			stroke $qz-gray-2
+
+
+		&.type-residential,
+		&.type-service
+			stroke $qz-gray-3
+
+	.parks path
+		fill $qz-gre-1
+		stroke none
+
+	.points path
+		fill $qz-purp-2
+		stroke none
+
+// Labels
+.labels
+	text
+		fill $qz-gray-2
+		font-size 80%
+		text-anchor start
+		alignment-baseline: middle
+		-webkit-font-smoothing antialiased

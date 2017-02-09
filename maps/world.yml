@@ -1,0 +1,7 @@
+# <x_min> <y_min> <x_max> <y_max>
+bbox: '-180 -90 180 90'
+layers:
+    countries:
+        type: 'shp'
+        path: 'http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip'
+        id-property: 'name'
