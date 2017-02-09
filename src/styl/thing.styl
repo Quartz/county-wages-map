@@ -5,6 +5,7 @@ $lower_middle = #d0d0c1
 $middle = #ffffe0
 $upper_middle = #e9c8cb
 $upper = #d190b6
+$no_data = #333
 
 h5
 	padding 15px 0 0 10px
@@ -53,6 +54,9 @@ ul#legend
 		&.upper b
 			 background-color: $upper
 
+		&.no-data b
+			 background-color: $no_data
+
 // Paths
 .paths
 	.counties path
@@ -75,10 +79,33 @@ ul#legend
 		&.upper
 			fill $upper
 
+		&.no-data
+			fill $no_data
+
 	.states path
 		fill none
 		stroke $qz-gray-3
 		stroke-width 1px
+
+	.selection path
+		fill none
+		stroke $qz-gray-3
+		stroke-width 3px
+		pointer-events none
+
+#tooltip
+	position absolute
+	padding 4px 4px 6px 4px
+	font 14px $qz-sans
+	background $qz-background-gray
+	border 1px solid $qz-gray-3
+	// border-radius 8px
+	pointer-events none
+	opacity 0
+
+	.county
+		font 16px $qz-sans-bold
+		font-weight bold
 
 @media screen and (max-width $width-mobile)
 	.item-body h5
@@ -113,3 +140,6 @@ ul#legend
 
 			&.upper
 				stroke $upper
+
+			&.no-data
+				stroke $no_data

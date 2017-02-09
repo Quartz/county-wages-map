@@ -27,6 +27,10 @@ var topoData = {};
 var countyData = {};
 var identityProjection = null;
 
+var tooltipTemplate = _.template('\
+<span class="county"><%= county %></span><br />\
+<strong>Wage growth:</strong> <%= change > 0 ? "+" : "" %><%= change.toFixed(0) %> dollars (<%= change > 0 ? "+" : "" %><%= pct_change.toFixed(1) %>%)\
+')
 
 /**
  * Initialize the graphic.
@@ -46,6 +50,9 @@ function init() {
 
         d3.csv('data/counties.csv', function(error, data) {
             _.each(data, function(d) {
+                d['change'] = +d['change'];
+                d['pct_change'] = +d['pct_change'];
+
                 countyData[d['fips']] = d;
             });
 
@@ -106,6 +113,8 @@ var renderMap = function(typeConfig, instanceConfig) {
     /*
      * Setup
      */
+    var selectionElement = null;
+
     // Calculate actual map dimensions
     var mapWidth = instanceConfig['width'];
     var mapHeight = Math.ceil(instanceConfig['width'] / typeConfig['aspect_ratio']);
@@ -113,6 +122,9 @@ var renderMap = function(typeConfig, instanceConfig) {
     // Clear existing graphic (for redraw)
     var containerElement = d3.select(instanceConfig['container']);
     containerElement.html('');
+
+    var tooltip = containerElement.append('div')
+        .attr('id', 'tooltip');
 
     /*
      * Create the map projection.
@@ -190,30 +202,62 @@ var renderMap = function(typeConfig, instanceConfig) {
         .enter().append('path')
             .attr('d', path)
             .attr('class', function(d) {
-                // var cls = classifyFeature(d);
-                var cls = '';
                 var fips = d['id'].replace(/^0+/, '');
+
+                // Wade Hamptok, AK -> Kusilvak
+                if (fips == '2158') {
+                    fips = '2270';
+                // Shannon County, SD -> Oglala Dakota
+                } else if (fips == '46102') {
+                    fips = '46113';
+                }
 
                 if (fips in countyData) {
                     var change = countyData[fips]['change'];
 
                     if (change < 47.4) {
-                        cls += ' lower';
+                        return 'lower';
                     } else if (change < 87.3) {
-                        cls += ' lower-middle';
+                        return 'lower-middle';
                     } else if (change < 125.3) {
-                        cls += ' middle';
+                        return 'middle';
                     } else if (change < 183.5) {
-                        cls += ' upper-middle';
+                        return 'upper-middle';
                     } else {
-                        cls += ' upper';
+                        return 'upper';
                     }
+                } else {
+                    return ' no-data'
                 }
+            })
+            .on("mouseover", function(d) {
+                var fips = d['id'].replace(/^0+/, '');
+                var data = countyData[fips];
 
-                return cls;
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+
+                tooltip.html(tooltipTemplate(data))
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY + 20) + "px");
+
+                selectionElement.append('path')
+                    .datum(d)
+                    .attr('d', path)
+            })
+            .on("mouseout", function(d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+
+                selectionElement.html('');
             });
 
     renderPaths('states');
+
+    var selectionElement = pathsElement.append('g')
+        .attr('class', 'selection');
 
     /*
      * Render a scale bar.
