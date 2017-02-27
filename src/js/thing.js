@@ -28,8 +28,8 @@ var countyData = {};
 var identityProjection = null;
 
 var tooltipTemplate = _.template('\
-<span class="county"><%= county %></span><br />\
-<strong>Wage growth:</strong> <%= change > 0 ? "+" : "" %><%= change.toFixed(0) %> dollars (<%= change > 0 ? "+" : "" %><%= (pct_change * 100).toFixed(1) %>%)\
+<span class="county"><%= area_title %></span><br />\
+<strong>Income growth:</strong> <%= change > 0 ? "+" : "" %><%= annual_change %> dollars per year (<%= change > 0 ? "+" : "" %><%= (pct_change * 100).toFixed(1) %>%)\
 ')
 
 /**
@@ -42,18 +42,18 @@ function init() {
     identityProjection = d3.geo.path()
         .projection({stream: function(d) { return d; }});
 
-	d3.json('data/geodata.json', function(error, data) {
+    d3.json('data/geodata.json', function(error, data) {
         // Extract topojson features
         for (var key in data['objects']) {
             topoData[key] = topojson.feature(data, data['objects'][key]);
         }
 
-        d3.csv('data/counties.csv', function(error, data) {
+        d3.csv('data/wages_by_area_adjusted.csv', function(error, data) {
             _.each(data, function(d) {
                 d['change'] = +d['change'];
                 d['pct_change'] = +d['pct_change'];
 
-                countyData[d['fips']] = d;
+                countyData[d['area_fips']] = d;
             });
 
             // render();
@@ -69,7 +69,7 @@ function init() {
 function onResize() {
     // console.log($('#interactive-content').width());
     if ($('#interactive-content').width() > MOBILE_BREAKPOINT) {
-	   render();
+       render();
    } else {
        $('#graphic').html('<img src="assets/16_9.jpg">');
 
@@ -83,7 +83,7 @@ function onResize() {
  * Figure out the current frame size and render the graphic.
  */
 function render() {
-	var containerWidth = $('#interactive-content').width();
+    var containerWidth = $('#interactive-content').width();
 
     if (!containerWidth) {
         containerWidth = DEFAULT_WIDTH;
@@ -234,6 +234,8 @@ var renderMap = function(typeConfig, instanceConfig) {
                 var fips = d['id'].replace(/^0+/, '');
                 var data = countyData[fips];
 
+                data['annual_change'] = commaFormat((data['change'] * 52.14).toFixed(0));
+
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
@@ -295,7 +297,11 @@ var renderMap = function(typeConfig, instanceConfig) {
         .style('top', (mapHeight + 50) + 'px')
 }
 
+function commaFormat(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // Bind on-load handler
 $(document).ready(function() {
-	init();
+    init();
 });
