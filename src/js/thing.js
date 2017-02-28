@@ -19,6 +19,11 @@ var SIMPLE_LABELS = [{
     'class': ''
 }];
 
+// var HIGHLIGHT = 'texas';
+var HIGHLIGHT = null;
+
+// var configure = require('./maps/usa-counties.js');
+// var configure = require('./maps/new-york.js');
 var configure = require('./maps/usa-counties.js');
 
 // Global vars
@@ -50,6 +55,14 @@ function init() {
 
         d3.csv('data/wages_by_area_adjusted.csv', function(error, data) {
             _.each(data, function(d) {
+                bits = d['area_title'].split(', ');
+                d['county'] = bits[0];
+                d['state'] = bits[1];
+
+                if (d['county'] == 'District of Columbia') {
+                    d['state'] = 'DC';
+                }
+
                 d['change'] = +d['change'];
                 d['pct_change'] = +d['pct_change'];
 
@@ -74,8 +87,8 @@ function onResize() {
        $('#graphic').html('<img src="assets/16_9.jpg">');
 
     //    $('.footer').
-       d3.selectAll('.footer')
-           .style('top', '')
+    //    d3.selectAll('.footer')
+    //        .style('top', '')
    }
 }
 
@@ -148,7 +161,7 @@ var renderMap = function(typeConfig, instanceConfig) {
 
     var chartElement = chartWrapper.append('svg')
         .attr('width', mapWidth)
-        .attr('height', mapHeight);
+        .attr('height', mapHeight)
 
     /*
      * Render graticules.
@@ -173,7 +186,13 @@ var renderMap = function(typeConfig, instanceConfig) {
         var c = [];
 
         if (d['id']) {
-            c.push(utils.classify(d['id']));
+            var state_cls = utils.classify(d['id']);
+
+            c.push(state_cls);
+
+            if (HIGHLIGHT && state_cls != HIGHLIGHT) {
+                c.push('fade');
+            }
         }
 
         for (var property in d['properties']) {
@@ -192,7 +211,7 @@ var renderMap = function(typeConfig, instanceConfig) {
                 .data(instanceConfig['data'][group]['features'])
             .enter().append('path')
                 .attr('d', path)
-                // .attr('class', classifyFeature);
+                .attr('class', classifyFeature);
     }
 
     pathsElement.append('g')
@@ -202,6 +221,7 @@ var renderMap = function(typeConfig, instanceConfig) {
         .enter().append('path')
             .attr('d', path)
             .attr('class', function(d) {
+                var cls = [];
                 var fips = d['id'].replace(/^0+/, '');
 
                 // Wade Hamptok, AK -> Kusilvak
@@ -213,22 +233,32 @@ var renderMap = function(typeConfig, instanceConfig) {
                 }
 
                 if (fips in countyData) {
+                    var state_cls = utils.classify(countyData[fips]['state']);
+
+                    cls.push(state_cls);
+
+                    if (HIGHLIGHT && state_cls != HIGHLIGHT) {
+                        cls.push('fade');
+                    }
+
                     var change = countyData[fips]['change'];
 
                     if (change < 47.4) {
-                        return 'lower';
+                        cls.push('lower');
                     } else if (change < 87.3) {
-                        return 'lower-middle';
+                        cls.push('lower-middle');
                     } else if (change < 125.3) {
-                        return 'middle';
+                        cls.push('middle');
                     } else if (change < 183.5) {
-                        return 'upper-middle';
+                        cls.push('upper-middle');
                     } else {
-                        return 'upper';
+                        cls.push('upper');
                     }
                 } else {
-                    return ' no-data'
+                    cls.push('no-data')
                 }
+
+                return cls.join(' ');
             })
             .on("mouseover", function(d) {
                 var fips = d['id'].replace(/^0+/, '');
@@ -293,8 +323,13 @@ var renderMap = function(typeConfig, instanceConfig) {
     /*
      * Reposition footer.
      */
-    d3.selectAll('.footer')
-        .style('top', (mapHeight + 50) + 'px')
+    // d3.selectAll('.footer')
+    //     .style('top', (mapHeight + 50) + 'px')
+
+    if (HIGHLIGHT) {
+        d3.selectAll('h5,#legend,.footer')
+            .style('display', 'none');
+    }
 }
 
 function commaFormat(x) {

@@ -8,16 +8,24 @@ $upper = #d190b6
 $no_data = #333
 
 .item-body h5
-	padding 15px 0 0 10px
+	padding 15px 0 0 0
 	margin 0
 	font-size 18px
 	font-family $qz-sans
 	font-weight normal
+	text-align center
+
+	.nowrap
+		white-space: nowrap;
+
+// svg
+// 	border-bottom 1px solid black
 
 ul#legend
-	padding: 10px 0 0 10px
+	padding: 10px 0 0 0
 	margin: 0
 	list-style-type: none
+	text-align center
 
 	li
 		display: inline-block
@@ -84,10 +92,16 @@ ul#legend
 		&.no-data
 			fill $no_data
 
+		&.fade
+			opacity: 0.25
+
 	.states path
 		fill none
 		stroke $qz-gray-3
 		stroke-width 1px
+
+		&.fade
+			opacity: 0.25
 
 	.selection path
 		fill none
@@ -110,21 +124,21 @@ ul#legend
 		font-weight bold
 
 .footer
-	padding 5px 0 10px 0
+	padding 10px 0 10px 0
+
+	&.left
+		left 20px
 
 @media screen and (max-width $width-mobile)
-	.item-body h5
+	// .item-body h5
 		// font-size 14px
-		font-weight bold
+		// font-weight bold
 
 	.paths
 		.states path
 			fill none
 			stroke $qz-gray-3
 			stroke-width 0.75px
-
-	.footer
-		position inherit
 
 @media screen and (max-width 959px)
 	.paths
