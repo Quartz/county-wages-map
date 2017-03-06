@@ -243,13 +243,13 @@ var renderMap = function(typeConfig, instanceConfig) {
 
                     var change = countyData[fips]['change'];
 
-                    if (change < 47.4) {
+                    if (change < 47) {
                         cls.push('lower');
-                    } else if (change < 87.3) {
+                    } else if (change < 86.1) {
                         cls.push('lower-middle');
-                    } else if (change < 125.3) {
+                    } else if (change < 124.1) {
                         cls.push('middle');
-                    } else if (change < 183.5) {
+                    } else if (change < 180.4) {
                         cls.push('upper-middle');
                     } else {
                         cls.push('upper');
