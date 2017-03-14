@@ -1,3 +1,8 @@
+.clearfix:after
+	content ""
+	display table
+	clear both
+
 #title
 	position absolute
 	top 10px
@@ -6,18 +11,24 @@
 	padding 0
 
 .footer
-	position absolute
-	margin 0
-	padding 0
 	font-family $qz-sans
 	color $qz-gray-2
+	width 96%
+	padding 10px 2% 0 2%
 	font-size 14px
 
-	&.left
-		left 10px
+	.source
+		width 30%
+		float left
+		text-align left
 
-	&.right
-		right 10px
+	.brand
+		width 70%
+		float left
+		text-align right
+
+p.break
+	line-height 0.1em
 
 svg
 	font-size 20px

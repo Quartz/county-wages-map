@@ -328,8 +328,14 @@ var renderMap = function(typeConfig, instanceConfig) {
     //     .style('top', (mapHeight + 50) + 'px')
 
     if (HIGHLIGHT) {
-        d3.selectAll('h5,#legend,.footer')
+        d3.selectAll('h5,.note,.footer')
             .style('display', 'none');
+
+        d3.selectAll('.labels')
+            .style('font-size', '24px')
+
+        d3.selectAll('.scale')
+            .style('margin-bottom', '25px')
     }
 }
 
