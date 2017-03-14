@@ -20,9 +20,10 @@ var SIMPLE_LABELS = [{
 }];
 
 // var HIGHLIGHT = 'texas';
+// var HIGHLIGHT = 'new-york';
 var HIGHLIGHT = null;
 
-// var configure = require('./maps/usa-counties.js');
+// var configure = require('./maps/texas.js');
 // var configure = require('./maps/new-york.js');
 var configure = require('./maps/usa-counties.js');
 

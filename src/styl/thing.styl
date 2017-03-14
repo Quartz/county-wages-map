@@ -1,10 +1,10 @@
 @import 'maps/base'
 
-$lower = #a3a3a3
-$lower_middle = #d0d0c1
-$middle = #ffffe0
-$upper_middle = #e9c8cb
-$upper = #d190b6
+$lower = #1A9B8C
+$lower_middle = #41C5A4
+$middle = #C4C4C4
+$upper_middle = #D190B6
+$upper = #703C5C
 $no_data = #333
 
 .item-body h5
@@ -21,51 +21,68 @@ $no_data = #333
 // svg
 // 	border-bottom 1px solid black
 
-ul#legend
-	padding: 10px 0 0 0
-	margin: 0
-	list-style-type: none
-	text-align center
+.clearfix:after
+	content ""
+	display table
+	clear both
 
-	li
-		display: inline-block
-		margin: 0 18px 0 0
-		padding: 0
-		line-height: 17px
+#legend
+	padding-top 20px
+	padding-bottom 20px
+	width 70%
+	margin auto
 
-		b
-			display: inline-block
-			width: 17px
-			height: 17px
-			margin-right: 6px
-			float: left
-			border: 1px solid $qz-map-graticule
+	.labels
+		width 100%
+		font 16px $qz-sans
+		padding-bottom 5px
+		vertical-align bottom
 
 		div
-			whitespace: nowrap
-			fill: $qz-gray-2
-			font-size: 14px
-			font-family: $qz-sans-bold
-			font-weight: bold
-			float: left;
+			display block
+			float left
+			width 33.3333%
 
-		&.lower b
-			 background-color: $lower
+			&.lower
+				text-align left
 
-		&.lower-middle b
-			 background-color: $lower_middle
+			&.middle
+				text-align center
 
-		&.middle b
-			 background-color: $middle
+			&.upper
+				text-align right
 
-		&.upper-middle b
-			 background-color: $upper_middle
+	.scale
+		width 100%
 
-		&.upper b
-			 background-color: $upper
+		div
+			display block
+			float left
+			width 20%
+			height 16px
 
-		&.no-data b
-			 background-color: $no_data
+			&.lower
+				 background-color: $lower
+
+			&.lower-middle
+				 background-color: $lower_middle
+
+			&.middle
+				 background-color: $middle
+
+			&.upper-middle
+				 background-color: $upper_middle
+
+			&.upper
+				 background-color: $upper
+
+			&.no-data
+				 background-color: $no_data
+
+	.note
+		padding-top 5px
+		font 14px $qz-sans
+		color $qz-gray-3
 
 // Paths
 .paths
@@ -97,15 +114,15 @@ ul#legend
 
 	.states path
 		fill none
-		stroke $qz-gray-3
-		stroke-width 1px
+		stroke #333
+		stroke-width 1.5px
 
 		&.fade
 			opacity: 0.25
 
 	.selection path
 		fill none
-		stroke $qz-gray-3
+		stroke #fff
 		stroke-width 3px
 		pointer-events none
 
@@ -130,14 +147,19 @@ ul#legend
 		left 20px
 
 @media screen and (max-width $width-mobile)
-	// .item-body h5
-		// font-size 14px
-		// font-weight bold
+	#legend
+		width 80%
+
+		.labels
+			font-size 14px
+
+		.note
+			font-size 12px
 
 	.paths
 		.states path
 			fill none
-			stroke $qz-gray-3
+			stroke #333
 			stroke-width 0.75px
 
 @media screen and (max-width 959px)
