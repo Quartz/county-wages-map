@@ -81,16 +81,7 @@ function init() {
  * Invoke on resize. By default simply rerenders the graphic.
  */
 function onResize() {
-    // console.log($('#interactive-content').width());
-    if ($('#interactive-content').width() > MOBILE_BREAKPOINT) {
-       render();
-   } else {
-       $('#graphic').html('<img src="assets/16_9.jpg">');
-
-    //    $('.footer').
-    //    d3.selectAll('.footer')
-    //        .style('top', '')
-   }
+    render();
 }
 
 /**
@@ -105,19 +96,21 @@ function render() {
 
     if (containerWidth <= MOBILE_BREAKPOINT) {
         isMobile = true;
+
+        $('#graphic').html('<img src="assets/16_9.jpg">');
     } else {
         isMobile = false;
+
+        // What kind of map are we making?
+        var configuration = configure(containerWidth);
+
+        // Render the map!
+        renderMap(configuration, {
+            container: '#graphic',
+            width: containerWidth,
+            data: topoData
+        });
     }
-
-    // What kind of map are we making?
-    var configuration = configure(containerWidth);
-
-    // Render the map!
-    renderMap(configuration, {
-        container: '#graphic',
-        width: containerWidth,
-        data: topoData
-    });
 
     // Resize
     fm.resize();
