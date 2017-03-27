@@ -34,8 +34,8 @@ var countyData = {};
 var identityProjection = null;
 
 var tooltipTemplate = _.template('\
-<span class="county"><%= area_title %></span><br />\
-<strong>Income growth:</strong> <%= change > 0 ? "+" : "" %><%= annual_change %> dollars per year (<%= change > 0 ? "+" : "" %><%= (pct_change * 100).toFixed(1) %>%)\
+<span class="county"><%= county %></span><br />\
+<strong>Income growth:</strong> <%= annualChange %> (<%= pctChange %>% overall, <%= avgChange %>% average per year)\
 ')
 
 /**
@@ -258,13 +258,28 @@ var renderMap = function(typeConfig, instanceConfig) {
                 var fips = d['id'].replace(/^0+/, '');
                 var data = countyData[fips];
 
-                data['annual_change'] = commaFormat((data['change'] * 52.14).toFixed(0));
-
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
 
-                tooltip.html(tooltipTemplate(data))
+                var annualChange = commaFormat((data['change'] * 52.14).toFixed(0));
+                var pctChange = (data['pct_change'] * 100).toFixed(1);
+                var avgAnnualPctChange = (data['abs_avg_annual_pct_change'] * 100).toFixed(1);
+
+                var ttData = {
+                    'county': data['area_title'],
+                    'annualChange': data['change'] >= 0 ?
+                        '+$' + annualChange :
+                        annualChange.replace('-', '-$'),
+                    'pctChange': data['change'] >= 0 ?
+                        '+' + pctChange :
+                        pctChange,
+                    'avgChange': data['change'] >= 0 ?
+                        '+' + avgAnnualPctChange :
+                        avgAnnualPctChange,
+                }
+
+                tooltip.html(tooltipTemplate(ttData))
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY + 20) + "px");
 
